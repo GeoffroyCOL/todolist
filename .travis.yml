@@ -2,6 +2,17 @@ language: php
 php:
   - '8.0'
 
+warnings_are_errors: false
+
+services:
+  - mysql
+
+install:
+  - composer install --prefer-dist --no-interaction
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:schema:update --force --env=test
+  - php bin/console hautelook:fixtures:load --env=test
+
 script:
   - composer install
-  - ./vendor/bin/phpunit --testdox
+  - vendor/bin/phpunit --testdox

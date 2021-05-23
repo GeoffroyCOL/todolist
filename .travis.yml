@@ -9,7 +9,6 @@ php:
   - '8.0'
 
 services:
-  - mysql
   - docker
 
 env:

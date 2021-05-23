@@ -12,7 +12,7 @@ php:
 
 services:
   - mysql
-  - docker-compose
+  - docker
 
 addons:
   apt:
@@ -20,8 +20,6 @@ addons:
       - docker-ce
 
 before_install:
-  - sudo /etc/init.d/mysql stop
-  - sudo /etc/init.d/postgresql stop
   - docker -v
   - docker-compose -v
 

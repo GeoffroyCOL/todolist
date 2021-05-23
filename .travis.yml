@@ -13,8 +13,8 @@ install:
   - php bin/console doctrine:database:create --env=test
   - php bin/console doctrine:schema:update --force --env=test
   - php bin/console hautelook:fixtures:load -n --env=test
+  - docker-compose up -d
 
 script:
   - composer install
-  - docker-compose up -d
   - vendor/bin/phpunit --testdox

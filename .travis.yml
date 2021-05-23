@@ -1,8 +1,5 @@
 language: php
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.28.2
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -15,12 +12,14 @@ services:
   - mysql
   - docker
 
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
+
 before_install:
+  - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - docker-compose -v
-  - docker -v
 
 install:
   - composer install --prefer-dist --no-interaction
@@ -29,6 +28,6 @@ install:
   - php bin/console hautelook:fixtures:load -n --env=test
 
 script:
-  - docker-compose docker-compose.yml up -d
+  - docker-compose up -d
   - composer install
   - vendor/bin/phpunit --testdox

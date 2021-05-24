@@ -75,6 +75,13 @@ class User implements UserInterface
         message: 'Ce champs ne peut pas être vide'
     )]
     private $email;
+    
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$/',
+        message: "Votre mot de passe n'est pas au bon format.",
+    )]
+    /** @var string */
+    private $newPassword;
 
     public function __construct()
     {
@@ -190,6 +197,18 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    public function setNewPassword(?string $newPassword): self
+    {
+        $this->newPassword = $newPassword;
 
         return $this;
     }

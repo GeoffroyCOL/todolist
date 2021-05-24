@@ -61,7 +61,8 @@ class UserTest extends KernelTestCase
     {
         $user = $this->getEntity();
         $user->setPassword('usevr');
-        $this->assertHasErrors($user, 1);
+        $user->setNewpassword('usevr');
+        $this->assertHasErrors($user, 2);
     }
 
     /**

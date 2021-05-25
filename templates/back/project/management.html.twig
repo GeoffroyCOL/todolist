@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectController!{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.limitedAt) }}
+
+        <button type="submit">ajouter</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

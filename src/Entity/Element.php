@@ -70,9 +70,6 @@ abstract class Element
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    #[Assert\NotBlank(
-        message: 'Ce champs ne peut pas être vide'
-    )]
     private $createdBy;
 
     /**
@@ -87,6 +84,7 @@ abstract class Element
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->status = 'non commencé';
     }
 
     public function getId(): ?int

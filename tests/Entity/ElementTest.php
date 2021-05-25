@@ -24,10 +24,9 @@ abstract class ElementTest extends KernelTestCase
         $element = $this->getEntity();
         $element->setName('')
             ->setDescription('')
-            ->setCreatedBy(NULL)
         ;
 
-        $this->assertHasErrors($element, 4);
+        $this->assertHasErrors($element, 3);
     }
     
     /**

@@ -23,9 +23,9 @@ class ProjectService
      */
     public function persist(Project $project): void
     {
-        //dd($this->security->getUser());
-
-        $project->setCreatedBy($this->security->getUser());
+        if (!$project->getId()) {
+            $project->setCreatedBy($this->security->getUser());
+        }
         $this->manager->persist($project);
         $this->manager->flush();
     }

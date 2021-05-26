@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Project;
+use App\Entity\User;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -14,6 +15,15 @@ class ProjectService
         private ProjectRepository $repository,
         private Security $security
     ) {}
+    
+    /**
+     * @param  User $user
+     * @return array
+     */
+    public function getProjectsByUser(User $user): array
+    {
+        return $this->repository->findBy(['createdBy' => $user]);
+    }
     
     /**
      * persist

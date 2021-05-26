@@ -56,8 +56,8 @@ class ProjectController extends AbstractController
     /**
      * editProject
      *
-     * @param  mixed $request
-     * @param  mixed $project
+     * @param  Request $request
+     * @param  Project $project
      * @return Response
      */
     #[Route('/admin/project/edit/{id}', name: 'project.edit')]

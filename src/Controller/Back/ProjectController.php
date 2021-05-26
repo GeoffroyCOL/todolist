@@ -4,6 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\Project;
 use App\Form\Project\ProjectAddType;
+use App\Form\Project\ProjectEditType;
 use App\Service\ProjectService;
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,7 +48,34 @@ class ProjectController extends AbstractController
         }
 
         return $this->render('back/project/management.html.twig', [
-            'form' => $form->createView()
+            'form'      => $form->createView(),
+            'action'    => 'ajouter'
+        ]);
+    }
+    
+    /**
+     * editProject
+     *
+     * @param  Request $request
+     * @param  Project $project
+     * @return Response
+     */
+    #[Route('/admin/project/edit/{id}', name: 'project.edit')]
+    public function editProject(Request $request, Project $project): Response
+    {
+        $this->denyAccessUnlessGranted('PROJECT_OWN', $project, 'Vous ne pouvez pas modifier ce projet');
+
+        $form = $this->createForm(ProjectEditType::class, $project);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->projectService->persist($project);
+            $this->addFlash('success', 'Votre projet à bien été modifié.');
+            return $this->redirectToRoute('projects.list');
+        }
+
+        return $this->render('back/project/management.html.twig', [
+            'form'      => $form->createView(),
+            'action'    => 'modifier'
         ]);
     }
 }

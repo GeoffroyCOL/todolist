@@ -10,7 +10,11 @@
         {{ form_row(form.description) }}
         {{ form_row(form.limitedAt) }}
 
-        <button type="submit">ajouter</button>
+        {% if action == "modifier" %}
+            {{ form_row(form.status) }}
+        {% endif %}
+
+        <button type="submit">{{ action }}</button>
 
     {{ form_end(form) }}
 

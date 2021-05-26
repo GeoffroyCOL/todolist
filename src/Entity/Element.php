@@ -68,7 +68,7 @@ abstract class Element
     protected $limitedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $createdBy;

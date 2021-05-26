@@ -44,8 +44,11 @@ class ProjectControllerTest extends WebTestCase
         $client->request(Request::METHOD_GET, $route);
         $this->assertEquals($response, $client->getResponse()->getStatusCode());
     }
-
-    public function testAddProject()
+    
+    /**
+     * @return void
+     */
+    public function testAddProject(): void
     {
         $client = static::createClient();
         $this->login($client);
@@ -55,6 +58,25 @@ class ProjectControllerTest extends WebTestCase
         $form = $crawler->selectButton('ajouter')->form();
         $form['project_add[name]'] = 'Projet 1';
         $form['project_add[description]'] = 'Le premier projet à réaliser';
+        $client->submit($form);
+
+        $this->assertEquals(true, $client->getResponse()->isRedirect('/admin/projects'));
+    }
+    
+    /**
+     * @return void
+     */
+    public function testEditProject(): void
+    {
+        $client = static::createClient();
+        $this->login($client);
+
+        $crawler = $client->request(Request::METHOD_GET, '/admin/project/edit/11');
+
+        $form = $crawler->selectButton('modifier')->form();
+        $form['project_edit[name]'] = 'Projet modifié';
+        $form['project_edit[description]'] = 'Le premier projet à réaliser modifier';
+        $form['project_edit[status]'] = 'en cours';
         $client->submit($form);
 
         $this->assertEquals(true, $client->getResponse()->isRedirect('/admin/projects'));
@@ -69,7 +91,8 @@ class ProjectControllerTest extends WebTestCase
     public function setRouteForProjectControllerNotUserConnected()
     {
         return [
-            "Pour l'ajout d'un nouveau projet" => ['/admin/project/add', Response::HTTP_FOUND]
+            "Pour l'ajout d'un nouveau projet"          => ['/admin/project/add', Response::HTTP_FOUND],
+            "Pour la modification d'un nouveau projet"  => ['/admin/project/edit/11', Response::HTTP_FOUND]
         ];
     }
 
@@ -82,7 +105,12 @@ class ProjectControllerTest extends WebTestCase
     public function setRouteForProjectControllerUserConnected()
     {
         return [
-            "Pour l'ajout d'un nouveau projet" => ['/admin/project/add', Response::HTTP_OK]
+            "Pour l'ajout d'un nouveau projet"          
+                => ['/admin/project/add', Response::HTTP_OK],
+            "Pour la modification d'un nouveau projet qui m'appartient"  
+                => ['/admin/project/edit/11', Response::HTTP_OK],
+            "Pour la modification d'un nouveau projet qui ne m'appartient pas"  
+                => ['/admin/project/edit/12', Response::HTTP_FORBIDDEN]
         ];
     }
 

@@ -25,10 +25,32 @@ class ProjectController extends AbstractController
     public function __construct(private ProjectService $projectService)
     {}
 
-    #[Route('/admin/projects', name: 'projects.list')]
+    /**
+     * @return Response
+     */
+    #[Route('/admin/projects', name: 'projects.list')] 
     public function listProject(): Response
     {
-        return $this->render('back/project/list.html.twig');
+        $user = $this->getUser();
+        $projects = $this->projectService->getProjectsByUser($user);
+
+        return $this->render('back/project/list.html.twig', [
+            'projects' => $projects
+        ]);
+    }
+    
+    /**
+     * @param  Project $project
+     * @return Response
+     */
+    #[Route('/admin/project/{id}', name: 'project.show', requirements: ['id' => '\d+'])]
+    public function showProject(Project $project): Response
+    {
+        $this->denyAccessUnlessGranted('PROJECT_OWN', $project, 'Vous ne pouvez pas consulter ce projet');
+        
+        return $this->render('back/project/show.html.twig', [
+            'project' => $project
+        ]);
     }
     
     /**

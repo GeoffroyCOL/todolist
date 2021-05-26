@@ -2,6 +2,7 @@
 
 namespace Tests\Controller\Back;
 
+use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
 use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -96,7 +97,9 @@ class ProjectControllerTest extends WebTestCase
         return [
             "Pour l'ajout d'un nouveau projet"  => ['/admin/project/add', Response::HTTP_FOUND],
             "Pour la modification d'un projet"  => ['/admin/project/edit/11', Response::HTTP_FOUND],
-            "Pour la suppression d'un projet"   => ['/admin/project/delete/11', Response::HTTP_FOUND]
+            "Pour la suppression d'un projet"   => ['/admin/project/delete/11', Response::HTTP_FOUND],
+            "Pour la liste des projets"         => ['/admin/projects', Response::HTTP_FOUND],
+            "Pour un projet"                    => ['/admin/project/11', Response::HTTP_FOUND]
         ];
     }
 
@@ -113,7 +116,10 @@ class ProjectControllerTest extends WebTestCase
             "Pour la modification d'un projet qui m'appartient"         => ['/admin/project/edit/11', Response::HTTP_OK],
             "Pour la modification d'un projet qui ne m'appartient pas"  => ['/admin/project/edit/12', Response::HTTP_FORBIDDEN],
             "Pour la suppression d'un projet qui m'appartient"          => ['/admin/project/delete/11', Response::HTTP_FOUND],
-            "Pour la suppression d'un projet qui ne m'appartient pas"   => ['/admin/project/delete/12', Response::HTTP_FORBIDDEN]
+            "Pour la suppression d'un projet qui ne m'appartient pas"   => ['/admin/project/delete/12', Response::HTTP_FORBIDDEN],
+            "Pour la liste des projets"                                 => ['/admin/projects', Response::HTTP_OK],
+            "Pour un projet qui m'appartient"                           => ['/admin/project/11', Response::HTTP_OK],
+            "Pour un projet qui ne m'appartient pas"                    => ['/admin/project/12', Response::HTTP_FORBIDDEN]
         ];
     }
 

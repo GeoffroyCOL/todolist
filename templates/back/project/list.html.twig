@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProjectController!{% endblock %}
+{% block title %}Liste des projets{% endblock %}
 
 {% block body %}
+
+    {% for project in projects %}
+        {{ project.name }}
+    {% endfor %}
 
 {% endblock %}

@@ -3,16 +3,16 @@
 namespace App\Controller\Back;
 
 use App\Entity\Project;
+use App\Service\TaskService;
+use App\Service\ProjectService;
 use App\Form\Project\ProjectAddType;
 use App\Form\Project\ProjectEditType;
-use App\Service\ProjectService;
-use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * ProjectController
@@ -20,9 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectController extends AbstractController
 {
-    use ReloadDatabaseTrait;
-
-    public function __construct(private ProjectService $projectService)
+    public function __construct(
+        private ProjectService $projectService,
+        private TaskService $taskService
+    )
     {}
 
     /**
@@ -49,7 +50,8 @@ class ProjectController extends AbstractController
         $this->denyAccessUnlessGranted('PROJECT_OWN', $project, 'Vous ne pouvez pas consulter ce projet');
         
         return $this->render('back/project/show.html.twig', [
-            'project' => $project
+            'project'   => $project,
+            'tasks'     => $this->taskService->getTasksByProject($project->getId())
         ]);
     }
     

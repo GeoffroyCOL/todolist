@@ -14,6 +14,14 @@ class TaskService
     ){}
     
     /**
+     * @param  int $id
+     * @return array
+     */
+    public function getTasksByProject(int $id): array
+    {
+        return $this->repository->findBy(['project' => $id]);
+    }
+    /**
      * @param  Task $task
      * @return void
      */

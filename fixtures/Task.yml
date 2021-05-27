@@ -2,7 +2,7 @@ App\Entity\Task:
   task_1:
     name: La tâche 1
     description: <text()>
-    createdBy: "@user_<numberBetween(1, 10)>"
+    createdBy: "@user_1"
     note: <text()>
     status: en cours
     project: "@project_1"

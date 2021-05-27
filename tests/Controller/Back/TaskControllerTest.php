@@ -39,7 +39,8 @@ class TaskControllerTest extends WebTestCase
     public function setRouteForTaskControllerNotUserConnected()
     {
         return [
-            "Pour l'ajout d'une nouvelle tâche"  => ['/admin/task/add', Response::HTTP_FOUND]
+            "Pour l'ajout d'une nouvelle tâche"  => ['/admin/task/add', Response::HTTP_FOUND],
+            "Pour la modification d'une tâche"   => ['/admin/task/edit/11', Response::HTTP_FOUND],
         ];
     }
 
@@ -70,12 +71,11 @@ class TaskControllerTest extends WebTestCase
     public function setRouteForTaskControllerUserConnected()
     {
         return [
-            "Pour l'ajout d'une nouvelle tâche d'un projet m'appartenant"  
-                => ['/admin/task/add?project=1', Response::HTTP_OK],
-            "Pour l'ajout d'une nouvelle tâche d'un projet ne m'appartenant pas"  
-                => ['/admin/task/add?project=2', Response::HTTP_FORBIDDEN],
-            "Pour l'ajout d'une nouvelle tâche d'un projet qui n'existe pas"  
-                => ['/admin/task/add?project=2000', Response::HTTP_FOUND]
+            "Pour l'ajout d'une nouvelle tâche d'un projet m'appartenant"           => ['/admin/task/add?project=1', Response::HTTP_OK],
+            "Pour l'ajout d'une nouvelle tâche d'un projet ne m'appartenant pas"    => ['/admin/task/add?project=2', Response::HTTP_FORBIDDEN],
+            "Pour l'ajout d'une nouvelle tâche d'un projet qui n'existe pas"        => ['/admin/task/add?project=2000', Response::HTTP_FORBIDDEN],
+            "Pour la modification d'une tâche m'appartenant"                        => ['/admin/task/edit/11', Response::HTTP_OK],
+            "Pour la modification d'une tâche ne m'appartenant pas"                 => ['/admin/task/edit/12', Response::HTTP_FORBIDDEN]
         ];
     }
     
@@ -100,6 +100,22 @@ class TaskControllerTest extends WebTestCase
 
         $form['task_add[name]'] = 'Une tâche ajoutée au projet';
         $form['task_add[description]'] = 'La première tâche ajoutée';
+        $client->submit($form);
+
+        $this->assertEquals(true, $client->getResponse()->isRedirect('/admin/project/1'));
+    }
+
+    public function testEditTask()
+    {
+        $client = static::createClient();
+        $this->login($client);
+
+        $crawler = $client->request(Request::METHOD_GET, '/admin/task/edit/11');
+        $form = $crawler->selectButton('modifier')->form();
+
+        $form['task_edit[name]'] = 'Une tâche modifiée au projet';
+        $form['task_edit[description]'] = 'La première tâche modifiée';
+        $form['task_edit[note]'] = 'Une note';
         $client->submit($form);
 
         $this->assertEquals(true, $client->getResponse()->isRedirect('/admin/project/1'));

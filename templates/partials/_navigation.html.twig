@@ -27,12 +27,6 @@
                     <a  class="nav-link {% if current_page is defined and current_page == 'dashboard' %} active {% endif %}" 
                         href="{{ path('dashboard') }}">Dashboard</a>
                 </li>
-                {% if component is defined %}
-                <li class="nav-item">
-                    <a  class="nav-link {% if current_page is defined and current_page == 'projets' %} active {% endif %}" 
-                        href="{{ path('projects.list') }}">Mes projets</a>
-                </li>
-                {% endif %}
             {% endif %}
             </ul>
         </div>

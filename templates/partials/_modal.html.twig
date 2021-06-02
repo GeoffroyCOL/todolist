@@ -1,0 +1,17 @@
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Voulez-vous supprimer {{ entity }} </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm text-uppercase btn-primary" data-bs-dismiss="modal">non</button>
+                <a href="{{ path('user.delete', {id: id}) }}" class="btn btn-sm text-uppercase btn-outline-danger">oui</a>
+            </div>
+        </div>
+    </div>
+</div>

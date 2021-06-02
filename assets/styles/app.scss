@@ -2,17 +2,17 @@
 @import "~bootstrap/scss/bootstrap";
 
 .form-error-icon.badge.badge-danger.text-uppercase {
-    background-color: $danger;
+  background-color: $danger;
 }
 
 .bg-light-success {
-    background-color: rgba($success, 0.15);
+  background-color: rgba($success, 0.15);
 }
 
 .bg-light-danger {
-    background-color: rgba($danger, 0.15);
+  background-color: rgba($danger, 0.15);
 }
 
 .bg-light-info {
-    background-color: rgba($info, 0.15);
+  background-color: rgba($info, 0.15);
 }

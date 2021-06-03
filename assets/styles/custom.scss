@@ -13,8 +13,6 @@ $primary: #283593;
   box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
 }
 
-@media all and (min-width: 768px) {
-  .user {
-    height: 100vh;
-  }
+.min-height {
+  min-height: 100vh;
 }

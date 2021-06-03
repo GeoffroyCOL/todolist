@@ -1,9 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projet{% endblock %}
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
 
-    {{ project.name }}
+    <section class="d-flex flex-wrap min-height">
+        
+        {% include 'back/user/profil.html.twig' %}
 
+        <section class="col-12 col-md-8 p-3 p-xl-5">
+            <header class="mb-4 mb-md-5">
+                <h2 class="mb-3">{{ project.name }}</h2>
+                <a  class="btn btn-sm btn-secondary fw-bold text-white" 
+                    href="{{ path('project.edit', {id: project.id}) }}">Modifier</a>
+
+                <a  class="btn btn-sm btn-outline-danger fw-bold" 
+                    href="{{ path('project.delete', {id: project.id}) }}">Supprimer</a>
+            </header>
+
+            <div>
+                <p class="h5 mb-0">Description</p>
+                <p>{{ project.description }}</p>
+
+                <p class="h5 mb-0">Date de création</p>
+                <p>{{ project.createdAt | date('d/m/Y') }}</p>
+
+                {% if project.limitedAt %}
+                    <p class="h5 mb-0">Date de fin de projet</p>
+                    <p>{{ project.limitedAt | date('d/m/Y') }}</p>
+                {% endif %}
+            </div>
+
+            <div class="my-4">
+                <p class="h6">Evolution : {{ pourcent | round(2, 'floor') }}%</p>
+                <div class="progress" style="height: 3px;">
+                    <div    class="progress-bar bg-success" 
+                            role="progressbar" 
+                            style="width: {{ pourcent }}%;" 
+                            aria-valuenow="{{ pourcent }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="my-5">
+                <header class="mb-4">
+                    <h3>Les tâches associées</h3>
+                </header>
+
+                {% if tasks %}
+                    {% include 'back/task/list.html.twig' %}
+                {% else %} 
+                    <p>
+                        Aucune tâche associée à ce projet. Voulez-vous en ajouter une ?  
+                        <a class="btn btn-sm btn-outline-secondary fw-bold">Ajouter</a>
+                    </p>
+                {% endif %}
+            </div>
+        </section>
+    </section>
 {% endblock %}

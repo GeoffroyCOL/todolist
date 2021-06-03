@@ -1,4 +1,4 @@
-<section class="user col-12 col-md-4 bg-light p-3 p-xl-5 mb-5 mb-md-0 shadow">
+<section class="col-12 col-md-4 bg-light p-3 p-xl-5 mb-5 mb-md-0 shadow">
     <p class="mb-0 h5">Nom de l'utilisateur</p>
     <p>{{ app.user.username }}</p>
 
@@ -9,12 +9,14 @@
     <p>{{ app.user.createdAt | date('d/m/Y') }}</p>
 
     <div class="d-grid gap-2 d-xl-block mt-4">
-        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_logout') }}">Déconnexion</a>
-        <a class="btn btn-sm btn-primary" href="{{ path('user.edit', {id: app.user.id}) }}">Modifier profil</a>
+        <a class="btn btn-sm btn-outline-dark fw-bold" href="{{ path('app_logout') }}">Déconnexion</a>
+        <a class="btn btn-sm btn-primary fw-bold" href="{{ path('user.edit', {id: app.user.id}) }}">Modifier profil</a>
         <button type="button" 
                 data-bs-toggle="modal" 
                 data-bs-target="#deleteModal"
-                class="btn btn-sm btn-outline-danger">Supprimer profil
+                class="fw-bold btn btn-sm btn-outline-danger">Supprimer profil
         </button>
     </div>
 </section>
+
+{% include 'partials/_modal.html.twig' with {'entity': 'profil', 'id': app.user.id} %}

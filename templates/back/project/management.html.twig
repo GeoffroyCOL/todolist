@@ -1,21 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProjectController!{% endblock %}
+{% block title %}{{ action | capitalize }} un projet | {{ parent() }}{% endblock %}
 
 {% block body %}
 
-    {{ form_start(form) }}
+    <section class="d-flex flex-wrap min-height"> 
+        {% include 'back/user/profil.html.twig' %}
 
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.limitedAt) }}
+            <section class="col-12 col-md-8 p-3 p-xl-5">
+                <header class="mb-4 mb-md-5">
+                    <h2 class="mb-3">{{ action | capitalize }} un projet</h2>
+                </header>
 
-        {% if action == "modifier" %}
-            {{ form_row(form.status) }}
-        {% endif %}
+                {{ form_start(form) }}
 
-        <button type="submit">{{ action }}</button>
+                    <div class="mb-3">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.limitedAt) }}
+                        {{ form_widget(form.limitedAt) }}
+                        {{ form_help(form.limitedAt) }}
+                    </div>
 
-    {{ form_end(form) }}
-
+                    <button class="btn btn-sm btn-secondary fw-bold text-white" type="submit">{{ action | capitalize }}</button>
+                {{ form_end(form) }}
+            </section>
+    </section>
 {% endblock %}

@@ -16,3 +16,9 @@
 .bg-light-info {
   background-color: rgba($info, 0.15);
 }
+
+.task-icon {
+  top: $card-spacer-y;
+  right: $card-spacer-y;
+  transform: scale(1.15);
+}

@@ -3,14 +3,14 @@
 {% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <section class="d-flex flex-wrap">
+    <section class="d-flex flex-wrap min-height">
         
         {% include 'back/user/profil.html.twig' %}
 
         <section class="col-12 col-md-8 p-3 p-xl-5">
             <header class="mb-4 mb-md-5">
                 <h2 class="mb-3">Mes projets</h2>
-                <a class="btn btn-sm btn-primary" href="{{ path('project.add') }}">Ajouter un projet</a>
+                <a class="btn btn-sm btn-primary fw-bold" href="{{ path('project.add') }}">Ajouter un projet</a>
             </header>
             {% if projects == null %} 
                 <p>Vous n'avez pas encore de projets créer</p>
@@ -32,7 +32,8 @@
                                     <td>{{ project.name }}</td>
                                     <td>{{ project.description |u.truncate(25, '...') }}</td>
                                     <td>
-                                        <a class="text-white btn btn-sm btn-secondary" href="{{ path('project.show', {id: project.id}) }}">consulter</a>
+                                        <a  class="fw-bold text-white btn btn-sm btn-secondary" 
+                                            href="{{ path('project.show', {id: project.id}) }}">consulter</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -42,7 +43,5 @@
         {% endif %}
         </section>
     </section>
-
-    {% include 'partials/_modal.html.twig' with {'entity': 'profil', 'id': app.user.id} %}
 
 {% endblock %}

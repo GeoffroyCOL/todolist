@@ -1,7 +1,25 @@
-{% extends 'base.html.twig' %}
+<section class="row" data-masonry='{"percentPosition": true }'>
+{% for task in tasks %}
+    <div class="col-12 col-lg-6 mb-3 mb-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h4 class="h6 mb-3">{{ task.name }}</h4>
+                <p>{{ task.description }}</p>
 
-{% block title %}Hello TaskController!{% endblock %}
+                <p class="position-absolute task-icon">
+                    {% if task.status == 'terminé' %} <i class="far fa-check-circle text-success"></i>
+                        {% else %} <i class="fas fa-times text-danger"></i>
+                    {% endif %}
+                </p>
 
-{% block body %}
+            </div>
 
-{% endblock %}
+            <div class="text-end card-body">
+                <a class="fw-bold btn btn-sm btn-outline-primary text-uppercase" href="{{ path('task.edit', {id: task.id}) }}">modifier</a>
+                <button class="fw-bold btn btn-sm btn-danger text-uppercase" 
+                        data-path="{{ path('task.edit', {id: task.id}) }}">supprimer</button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</section>

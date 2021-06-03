@@ -6,7 +6,6 @@ use App\Entity\Project;
 use App\Service\TaskService;
 use App\Service\ProjectService;
 use App\Form\Project\ProjectAddType;
-use App\Form\Project\ProjectEditType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +37,7 @@ class ProjectController extends AbstractController
         return $this->render('back/project/list.html.twig', [
             'projects'      => $projects,
             'current_page'  => 'projets',
-            'component'         => 'admin'
+            'component'     => 'admin'
         ]);
     }
     
@@ -50,10 +49,29 @@ class ProjectController extends AbstractController
     public function showProject(Project $project): Response
     {
         $this->denyAccessUnlessGranted('PROJECT_OWN', $project, 'Vous ne pouvez pas consulter ce projet');
-        
+
+        $tasks = $this->taskService->getTasksByProject($project->getId());
+        $number = count($tasks);
+        $number_success = 0;
+
+        foreach ($tasks as $task) {
+            if ($task->getStatus() == 'terminé') {
+                $number_success++;
+            }
+        }
+
+        $number_progress = $number - $number_success;
+        $pourcent = 0;
+
+        if ($number != 0) {
+            $pourcent = ($number_success / $number) * 100;
+        }
+
         return $this->render('back/project/show.html.twig', [
             'project'   => $project,
-            'tasks'     => $this->taskService->getTasksByProject($project->getId())
+            'tasks'     => $tasks,
+            'component' => 'admin',
+            'pourcent'  => $pourcent
         ]);
     }
     
@@ -70,12 +88,13 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->projectService->persist($project);
             $this->addFlash('success', 'Votre projet à bien été ajouté.');
-            return $this->redirectToRoute('projects.list');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('back/project/management.html.twig', [
             'form'      => $form->createView(),
-            'action'    => 'ajouter'
+            'action'    => 'ajouter',
+            'component' => 'admin',
         ]);
     }
     
@@ -91,17 +110,18 @@ class ProjectController extends AbstractController
     {
         $this->denyAccessUnlessGranted('PROJECT_OWN', $project, 'Vous ne pouvez pas modifier ce projet');
 
-        $form = $this->createForm(ProjectEditType::class, $project);
+        $form = $this->createForm(ProjectAddType::class, $project);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->projectService->persist($project);
             $this->addFlash('success', 'Votre projet à bien été modifié.');
-            return $this->redirectToRoute('projects.list');
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('back/project/management.html.twig', [
             'form'      => $form->createView(),
-            'action'    => 'modifier'
+            'action'    => 'modifier',
+            'component' => 'admin',
         ]);
     }
     
@@ -116,6 +136,6 @@ class ProjectController extends AbstractController
         $this->projectService->delete($project);
         $this->addFlash('success', 'Votre projet à bien été supprimé.');
 
-        return $this->redirectToRoute('projects.list');
+        return $this->redirectToRoute('dashboard');
     }
 }

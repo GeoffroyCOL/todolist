@@ -15,12 +15,30 @@ class ProjectAddType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('name', TextType::class, [
+                'label' => 'Nom du projet',
+                'label_attr' => [
+                    'class' => 'fw-bold'
+                ],
+            ])
             ->add('description', TextareaType::class, [
-                'required' => false
+                'required'  => false,
+                'label'     => 'Description',
+                'label_attr' => [
+                    'class' => 'fw-bold'
+                ],
+                'attr' => [
+                    'rows' => 6
+                ],
             ])
             ->add('limitedAt', DateType::class, [
-                'required' => false
+                'required'  => false,
+                'label'     => 'Date limite de réalisation',
+                'help'      => 'Optionel',
+                'label_attr' => [
+                    'class' => 'fw-bold'
+                ],
+                'widget' => 'single_text'
             ])
         ;
     }

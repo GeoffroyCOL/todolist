@@ -30,6 +30,7 @@ class ProjectAddType extends AbstractType
                 'attr' => [
                     'rows' => 6
                 ],
+                'help'      => 'Optionel',
             ])
             ->add('limitedAt', DateType::class, [
                 'required'  => false,

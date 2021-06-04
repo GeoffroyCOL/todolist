@@ -48,9 +48,6 @@ abstract class Element
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    #[Assert\NotBlank(
-        message: 'Ce champs ne peut pas être vide'
-    )]
     protected $description;
 
     /**
